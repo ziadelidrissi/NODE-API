@@ -7,6 +7,9 @@ const app = express();
 
 app.use(express.json());
 
+// to read form data
+app.use(express.urlencoded({ extended: true }));
+
 // router
 app.get('/', (req, res) => {
     res.send('Hello NODE-API')
@@ -38,7 +41,7 @@ app.get('/products/:id', async (req, res) => {
 })
 
 
-// POST = add a product
+// POST = add data
 app.post('/product', async (req, res) => {
     try {
         const product = await Product.create(req.body);
@@ -49,6 +52,22 @@ app.post('/product', async (req, res) => {
     }
 })
 
+// PUT (or PATCH) = update data
+app.put('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByIdAndUpdate(id, req.body);
+        if(!product) {
+            return res.status(404).json({message: `cannot find any product with ID : ${id}`});
+        }
+        const updatedProduct = await Product.findById(id);
+        res.status(200).json(updatedProduct);
+    
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+})
 
 mongoose.
 connect('mongodb+srv://admin:sVwtl9EdeVTr0YvE@node-api.uadbae6.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODE-API')
