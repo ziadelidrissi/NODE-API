@@ -69,6 +69,22 @@ app.put('/products/:id', async (req, res) => {
     }
 })
 
+// DELETE = delete data
+app.delete('/products/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const product = await Product.findByIdAndDelete(id);
+        if(!product) {
+            return res.status(404).json({message: `cannot find any product with ID : ${id}`});
+        }
+        res.status(200).json(product);
+
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).json({message: error.message});
+    }
+})
+
 mongoose.
 connect('mongodb+srv://admin:sVwtl9EdeVTr0YvE@node-api.uadbae6.mongodb.net/Node-API?retryWrites=true&w=majority&appName=NODE-API')
 .then(() => {
