@@ -1,7 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
-import { router } from './routers/productRouter.js';
+import { router as productRouter } from './routers/productRouter.js';
 
 const app = express();
 
@@ -11,7 +11,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // router
-app.use(router);
+app.use(productRouter);
 
 
 app.get('/', (req, res) => {
