@@ -2,6 +2,7 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import { router as productRouter } from './routers/productRouter.js';
+import { errorMiddleware } from './middlewares/errorMiddleware.js';
 
 const app = express();
 
@@ -22,8 +23,8 @@ app.get('/blog', (req, res) => {
     res.send('Hello blog')
 })
 
-
-
+app.use(errorMiddleware);
+ 
 mongoose.
 connect(process.env.DB_URL)
 .then(() => {
