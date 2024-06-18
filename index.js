@@ -3,10 +3,16 @@ import express from 'express';
 import mongoose from 'mongoose';
 import { router as productRouter } from './routers/productRouter.js';
 import { errorMiddleware } from './middlewares/errorMiddleware.js';
+import cors from 'cors';
 
 const app = express();
-
 app.use(express.json());
+
+var corsOptions = {
+    origin: process.env.FRONTEND,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  }
+app.use(cors(corsOptions));
 
 // to read form data
 app.use(express.urlencoded({ extended: true }));
